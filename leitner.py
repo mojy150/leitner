@@ -5,8 +5,8 @@ import datetime
 from tempfile import NamedTemporaryFile
 import shutil
 
-basic_csv = 'basic.csv'
-time_csv = 'time.csv'
+basic_csv = 'basic.csv' # csv of word
+time_csv = 'time.csv' # csv of time
 
 def my_append(id_0,list_1,temp): # append random word in list_1
     while temp != 0:
@@ -45,7 +45,7 @@ def last_id(): # give the last id
         for row in reader:
             n = int(row[0])
         return n
-def append_list_as_row(file_csv,list_of_elem): # set new word in csv
+def append_list_as_row(file_csv,list_of_elem): # send new word in csv
     # Open file in append mode
     with open(file_csv, 'a+', newline='') as write_obj:
         # Create a writer object from csv module
@@ -53,8 +53,7 @@ def append_list_as_row(file_csv,list_of_elem): # set new word in csv
         # Add contents of list as last row in the csv file
         csv_writer.writerow(list_of_elem)
         # List of strings
-def edit_csv(filename,line0,line1,line2,line3,line4):
-    # filename = 'tmpEmployeeDatabase.csv'
+def edit_csv(filename,line0,line1,line2,line3,line4): # edit csv for basic.csv
     tempfile = NamedTemporaryFile('w+t', newline='', delete=False)
 
     with open(filename, 'r', newline='') as csvFile, tempfile:
@@ -68,8 +67,7 @@ def edit_csv(filename,line0,line1,line2,line3,line4):
             writer.writerow(row)
 
     shutil.move(tempfile.name, filename)
-def edit_time_csv(filename,line0,line1,line2):
-    # filename = 'tmpEmployeeDatabase.csv'
+def edit_time_csv(filename,line0,line1,line2): # edit csv for time.csv
     tempfile = NamedTemporaryFile('w+t', newline='', delete=False)
 
     with open(filename, 'r', newline='') as csvFile, tempfile:
@@ -82,7 +80,7 @@ def edit_time_csv(filename,line0,line1,line2):
 
     shutil.move(tempfile.name, filename)    
 
-def leitner(list_1):
+def leitner(list_1): # question words
     sure = 'null'
     for item in list_1:
         if item[4] == 'on':
@@ -103,7 +101,6 @@ def leitner(list_1):
                 if javab == 'n' or javab == 'N':
                     item[3] , item[4] = '1' , 'off'
                 elif javab == 'y' or javab == 'Y' or javab == '':
-                    # list_1.remove(item)
                     item[3] , item[4] = str(int(item[3]) + 1) , 'off'
     return sure
     # for row in list_1: # todo
