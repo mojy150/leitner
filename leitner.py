@@ -27,6 +27,7 @@ def check(file_csv,number,id_0,list_1): # check for new word or old word
             temp = int(input('how much you want new words? : '))
             if temp > len(id_0):
                 temp = len(id_0)
+                print('all new words in csv is %i' % temp)
         elif number == 'another':
             for row in reader:
                 if row[3] != '0' and row[3] != '1' and row[3] != '3' and row[3] != '7' and row[3] != '15' and row[3] != '30' and row[3] != '31':
