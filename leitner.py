@@ -83,7 +83,9 @@ def edit_time_csv(filename,line0,line1,line2): # edit csv for time.csv
 
 def leitner(list_1): # question words
     sure = 'null'
+    counter = int(-1)
     for item in list_1:
+        counter += 1
         if item[4] == 'on':
             print(item[1])
             temp = input(' you want continue? (y/n): ')
@@ -94,6 +96,7 @@ def leitner(list_1): # question words
                     temp = 'y' # todo
                 elif sure == 'y' or sure == 'Y' or sure == '':
                     print('leitner is off!')
+                    counter -= 1
                     break
                 
             if temp == 'y' or temp == 'Y' or temp == '':
@@ -103,7 +106,8 @@ def leitner(list_1): # question words
                     item[3] , item[4] = '1' , 'off'
                 elif javab == 'y' or javab == 'Y' or javab == '':
                     item[3] , item[4] = str(int(item[3]) + 1) , 'off'
-    return sure
+    last_document_list = len(list_1) - 1
+    return sure ,last_document_list ,counter
     # for row in list_1: # todo
     #     edit_csv(basic_csv,row[0],row[1],row[2],row[3],row[4])
 
@@ -138,40 +142,40 @@ with open(basic_csv) as f:
                 for row in reader:
                     tomorrow_year , tomorrow_month , tomorrow_day = int(row[0]) , int(row[1]) , int(row[2])
                 e = datetime.datetime.now()
-                if e.year >= tomorrow_year:
-                    if e.month >= tomorrow_month:
-                        if e.day >= tomorrow_day:
-                            print('you can use leitner now')
-                            check(basic_csv,'30',id_0,list_1)
-                            check(basic_csv,'15',id_0,list_1)
-                            check(basic_csv,'7',id_0,list_1)
-                            check(basic_csv,'3',id_0,list_1)
-                            check(basic_csv,'1',id_0,list_1)
-                            check(basic_csv,'0',id_0,list_1)
-                            check(basic_csv,'another',id_0,list_another)
-                            
-                            sure = leitner(list_1)
-                            if sure != 'y' or sure != 'Y' or sure != '':
-                                for row in list_another:
-                                    if (row[0] == '1' or row[0] == '3' or row[0] == '7' or row[0] == '15' or row[0] == '30') and row[4] == 'off':
-                                        edit_csv(basic_csv,row[0],row[1],row[2],row[3],'on')
-                                        
-                                    elif row[0] != '0' or row[0] != '1' or row[0] != '3' or row[0] != '7' or row[0] != '15' or row[0] != '30':
-                                    # todo elif or else
-                                        edit_csv(basic_csv,row[0],row[1],row[2],str(int(row[3]) +1),row[4]) # todo (row[4] or 'off')
-                                tomorrow = datetime.date.today() + datetime.timedelta(days=1)
-                                edit_time_csv(time_csv,tomorrow.year,tomorrow.month,tomorrow.day)
-                            print('len list is zero (0). ')
-                            # list_1.sort() # todo
-                            print(list_1)
-                            
-                            for row in list_1:
-                                edit_csv(basic_csv,row[0],row[1],row[2],row[3],row[4])
-                        else:
-                            print("you can'n use leitner now")
-                            temp = input('but you can insert new word\n you want continue? (y/n): ')
-                            if temp == 'y' or temp == 'Y' or temp == '':
-                                check(basic_csv,'0',id_0,list_1)
-                                sure = leitner(list_1) # tode (sure = or not)
-                                for row in list_1:
-                                    edit_csv(basic_csv,row[0],row[1],row[2],row[3],row[4])
+                if e.year > tomorrow_year or (e.year == tomorrow_year and e.month > tomorrow_month) or (e.year == tomorrow_year and e.month == tomorrow_month and e.day >= tomorrow_day):
+                    print('you can use leitner now')
+                    check(basic_csv,'30',id_0,list_1)
+                    check(basic_csv,'15',id_0,list_1)
+                    check(basic_csv,'7',id_0,list_1)
+                    check(basic_csv,'3',id_0,list_1)
+                    check(basic_csv,'1',id_0,list_1)
+                    check(basic_csv,'0',id_0,list_1)
+                    check(basic_csv,'another',id_0,list_another)
+                    
+                    sure ,last_document_list ,document_list = leitner(list_1)
+                    print(sure,last_document_list ,document_list)
+                    if sure != 'y' or sure != 'Y' or sure != '':
+                        for row in list_another:
+                            if (row[0] == '1' or row[0] == '3' or row[0] == '7' or row[0] == '15' or row[0] == '30') and row[4] == 'off':
+                                edit_csv(basic_csv,row[0],row[1],row[2],row[3],'on')
+                                
+                            elif row[0] != '0' or row[0] != '1' or row[0] != '3' or row[0] != '7' or row[0] != '15' or row[0] != '30':
+                            # todo elif or else
+                                edit_csv(basic_csv,row[0],row[1],row[2],str(int(row[3]) +1),row[4]) # todo (row[4] or 'off')
+                        if last_document_list == document_list:
+                            tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+                            edit_time_csv(time_csv,tomorrow.year,tomorrow.month,tomorrow.day)
+                    print('len list is zero (0). ')
+                    # list_1.sort() # todo
+                    print(list_1)
+                    
+                    for row in list_1:
+                        edit_csv(basic_csv,row[0],row[1],row[2],row[3],row[4])
+                else:
+                    print("you can'n use leitner now")
+                    temp = input('but you can insert new word\n you want continue? (y/n): ')
+                    if temp == 'y' or temp == 'Y' or temp == '':
+                        check(basic_csv,'0',id_0,list_1)
+                        sure = leitner(list_1) # tode (sure = or not)
+                        for row in list_1:
+                            edit_csv(basic_csv,row[0],row[1],row[2],row[3],row[4])
