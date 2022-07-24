@@ -69,6 +69,7 @@ def append_list_as_row(file_csv,list_of_elem): # send new word in csv
         # Add contents of list as last row in the csv file
         csv_writer.writerow(list_of_elem)
         # List of strings
+        
 def edit_csv(filename,line0,line1,line2,line3,line4): # edit csv for basic.csv
     tempfile = NamedTemporaryFile('w+t', newline='', delete=False)
 
@@ -83,6 +84,7 @@ def edit_csv(filename,line0,line1,line2,line3,line4): # edit csv for basic.csv
             writer.writerow(row)
 
     shutil.move(tempfile.name, filename)
+    
 def edit_time_csv(filename,line0,line1,line2): # edit csv for time.csv
     tempfile = NamedTemporaryFile('w+t', newline='', delete=False)
 
@@ -122,19 +124,32 @@ def leitner(list_1): # question words
     # for row in list_1: # todo
     #     edit_csv(basic_csv,row[0],row[1],row[2],row[3],row[4])
 
+def show():
+    show_list = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    with open(basic_csv) as f:
+        reader = csv.reader(f)
+        for row in reader:
+            show_list[int(row[3])] += 1
+        for i in range(len(show_list)):
+            if show_list[i] != 0:
+                print('value words [%s] day house is [%i]' % (i,show_list[i]))
+
 with open(basic_csv) as f:
     reader = csv.reader(f)
     id_0 = list() # list Ids in CSV
     list_1 = list() # list word of question day
     list_another = list() # list word of does't question day
     while True:    
-        init = input('do you want? (leitner[l]/input word in app[i]/off the app[o]): ')
+        init = input('do you want? (leitner[l]/input word in app[i]/show status[s]/off the app[o]): ')
         
         if init == 'o' or init == 'O': # off the app
             print('app is off')
             break
         
-        if init == 'i' or init == 'I': # send word in app
+        elif init == 's' or init == 'S': # show value words in all days house
+            show()
+        
+        elif init == 'i' or init == 'I': # send word in app
             print('warning!!! ,all new words insert to one day house')
             new_word = int(0) # todo
             while True:
@@ -148,7 +163,7 @@ with open(basic_csv) as f:
                 if temp == 'n' or temp == 'N':
                     break
                 
-        if init == 'l' or init == 'L' or init == '': # leitner
+        elif init == 'l' or init == 'L' or init == '': # leitner
             list_1 = []
             with open(time_csv) as time_tomorrow:
                 reader = csv.reader(time_tomorrow)
@@ -206,3 +221,5 @@ with open(basic_csv) as f:
                         for row in list_1:
                             edit_csv(basic_csv,row[0],row[1],row[2],row[3],row[4])
                         # print(list_1)
+                        if len(list_1) == 0:
+                            print('len list is zero (0). ')
