@@ -4,7 +4,10 @@ import datetime
 # from csv import writer
 from tempfile import NamedTemporaryFile
 import shutil
+import pyttsx3
 
+engine = pyttsx3.init()
+engine.setProperty('rate', 170)
 basic_csv = 'basic.csv' # csv of word
 time_csv = 'time.csv' # csv of time
 
@@ -103,12 +106,14 @@ def leitner(list_1): # question words
     for item in list_1:
         if item[4] == 'on':
             print(item[1])
+            engine.say(item[1])
+            engine.runAndWait()
             temp = input(' you want continue? (y/n): ')
             
             if temp == 'n' or temp == 'N':
                 sure = input('are you sure? (y/n): ')
                 if sure == 'n' or sure == 'N':
-                    temp = 'y' # todo
+                    temp = 'y' # TODO
                 elif sure == 'y' or sure == 'Y' or sure == '':
                     print('leitner is off!')
                     break
@@ -121,7 +126,7 @@ def leitner(list_1): # question words
                 elif javab == 'y' or javab == 'Y' or javab == '':
                     item[3] , item[4] = str(int(item[3]) + 1) , 'off'
     return sure
-    # for row in list_1: # todo
+    # for row in list_1: # TODO
     #     edit_csv(basic_csv,row[0],row[1],row[2],row[3],row[4])
 
 def show():
@@ -151,7 +156,7 @@ with open(basic_csv) as f:
         
         elif init == 'i' or init == 'I': # send word in app
             print('warning!!! ,all new words insert to one day house')
-            new_word = int(0) # todo
+            new_word = int(0) # TODO
             while True:
                 word = input('give me the word: ')
                 word_translate = input('give me the word translation: ')
@@ -187,14 +192,14 @@ with open(basic_csv) as f:
                                 edit_csv(basic_csv,row[0],row[1],row[2],row[3],'on')
                                 
                             elif row[0] != '0' or row[0] != '1' or row[0] != '3' or row[0] != '7' or row[0] != '15' or row[0] != '30':
-                            # todo elif or else
-                                edit_csv(basic_csv,row[0],row[1],row[2],str(int(row[3]) +1),row[4]) # todo (row[4] or 'off')
-                    tomorrow = datetime.date.today() + datetime.timedelta(days=1) # todo
+                            # TODO elif or else
+                                edit_csv(basic_csv,row[0],row[1],row[2],str(int(row[3]) +1),row[4]) # TODO (row[4] or 'off')
+                    tomorrow = datetime.date.today() + datetime.timedelta(days=1) # TODO
                     edit_time_csv(time_csv,tomorrow.year,tomorrow.month,tomorrow.day)
                     
                     if len(list_1) == 0:
                         print('len list is zero (0). ')
-                    # list_1.sort() # todo
+                    # list_1.sort() # TODO
                     # print(list_1)
                     
                     for row in list_1:
