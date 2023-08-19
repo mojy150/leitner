@@ -217,12 +217,12 @@ with open(basic_csv) as f:
                         temp = input('but you can insert new word\n you want continue? (y/n): ')
                         if temp == 'y' or temp == 'Y' or temp == '':
                             check(basic_csv,'0',id_0,questionToday_list)
-                            sure = leitner(questionToday_list) # tode (sure = or not)
+                            sure = leitner(questionToday_list) # TODO (sure = or not)
                             for row in questionToday_list:
                                 edit_csv(basic_csv,row[0],row[1],row[2],row[3],row[4])
                     else:
                         print("you can just continue leitner now")
-                        sure = leitner(questionToday_list) # tode (sure = or not)
+                        sure = leitner(questionToday_list) # TODO (sure = or not)
                         for row in questionToday_list:
                             edit_csv(basic_csv,row[0],row[1],row[2],row[3],row[4])
                         # print(questionToday_list)
