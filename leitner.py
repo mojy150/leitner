@@ -23,14 +23,17 @@ def check(file_csv,number,id_0,questionToday_list): # check for new word or old 
     with open(file_csv) as f:
         reader = csv.reader(f)    
         temp = int(0)
+        counter = int(0)
         if number == '0':
             for row in reader:
                 if row[3] == number:
-                    id_0.append([row[0],row[1],row[2],row[3],'on']) 
-            temp = int(input('how much you want new words? : '))
-            if temp > len(id_0):
-                temp = len(id_0)
-                print('all new words in csv is %i' % temp)
+                    id_0.append([row[0],row[1],row[2],row[3],'on'])
+                    counter +=1 
+            if counter != 0:
+                temp = int(input('how much you want new words? : '))
+                if temp > len(id_0):
+                    temp = len(id_0)
+                    print('all new words in csv is %i' % temp)
         elif number == 'another':
             for row in reader:
                 if row[3] != '0' and row[3] != '1' and row[3] != '3' and row[3] != '7' and row[3] != '15' and row[3] != '30' and row[3] != '31':
